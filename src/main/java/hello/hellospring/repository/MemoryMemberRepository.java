@@ -2,32 +2,33 @@ package hello.hellospring.repository;
 
 import hello.hellospring.domain.Member;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class MemoryMemberRepository<store> implements MemberRepository{
     private static Map<Long, Member> store = new HashMap<>();
-    private static long sequence = 0L;
+    private static long sequence = 0L; //0123... 키값 생성해주는 넘
 
     @Override
     public Member save(Member member) {
-        return null;
+        member.setId(++sequence); //member id 값 생성
+        store.put(member.getId(), member); 
+        return member
     }
 
     @Override
     public Optional<Member> findById(Long id) {
-        return Optional.empty();
+        return Optional.ofNullable(store.get(id));
     }
 
     @Override
     public Optional<Member> findByName(String name) {
-        return Optional.empty();
+        return store.values().stream()
+                .filter(member->member.getName().equals(name))
+                .findAny();
     }
 
     @Override
-    public List<Member> findAll() {
-        return null;
+    public List<Member> findAll() { //얘는 왜 리스트?
+        return new ArrayList<>(store.values()) //store에 있는 member들이 반환
     }
 }
