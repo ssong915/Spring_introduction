@@ -10,7 +10,8 @@ public class TimeTraceAop {
 
     @Around("execution(* hello.hellospring..*(..))")
     // 어디에 적용할건가?
-    // hello.hellospring 에 있는거 다 적용해! 라는 뜻
+    // execution(* hello.hellospring..*(..))
+    // hello.hellospring 에 있는거 다 적용해! 라는 뜻 , 가장 많이 쓰임
 
     public Object execute(ProceedingJoinPoint joinPoint) throws Throwable
     {
